@@ -14,17 +14,31 @@
 #include "Led.h"
 #include "Pushbutton.h"
 #include "SSD.h"
+#include "Lcd.h"
+#include "Puzzer.h"
+#include "KeyPad.h"
+#include "EXT_INT.h"
+
 
 int main(void)
 {
-	u8 X=0;
+	u8 x=0;
+	
+	H_Buzzer_Init();
+	H_KeyPad_Init();
+	H_Lcd_Init();
 	H_Ssd_Init();
 	
-	
+	 H_Lcd_PrintNum(x);
 	while (1)
 	{
-		H_Ssd_DisplayNum(X);
-		X++;
+		x = H_KeyPad_Read();
+		if (x != 0)
+		{
+			H_Lcd_WriteChar(x);
+			H_Ssd_DisplayNum(x-48);
+		}
+		
 	}
 	return 0;
 }
