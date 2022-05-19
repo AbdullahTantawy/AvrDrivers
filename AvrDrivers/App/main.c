@@ -18,8 +18,8 @@
 #include "Puzzer.h"
 #include "KeyPad.h"
 #include "EXT_INT.h"
+#include "TempSensor.h"
 #include "ADC.h"
-
 
 int main(void)
 {
@@ -27,14 +27,21 @@ int main(void)
 	H_Buzzer_Init();
 	H_Lcd_Init();
 	M_Adc_Init();
+	H_TempSensor_Init();
 	
 	 
 	while (1)
 	{
-		x= M_Adc_Read();
+		x = H_TempSensor_Read();
+		H_Lcd_GoTo(0,0);
+		H_Lcd_WriteStr((u8*)"Temp :");
 		H_Lcd_PrintNum(x);
-		_delay_ms(300);
-		H_Lcd_Clr();
+		H_Lcd_GoTo(1,0);
+		H_Lcd_WriteStr((u8*)"ADC  :");
+		x = M_Adc_Read();
+		H_Lcd_PrintNum(x);
+		_delay_ms(1000);
+		//H_Lcd_Clr();
 	}
 	return 0;
 }
