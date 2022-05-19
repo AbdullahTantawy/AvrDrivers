@@ -18,27 +18,23 @@
 #include "Puzzer.h"
 #include "KeyPad.h"
 #include "EXT_INT.h"
+#include "ADC.h"
 
 
 int main(void)
 {
-	u8 x=0;
-	
+	u16 x=0;
 	H_Buzzer_Init();
-	H_KeyPad_Init();
 	H_Lcd_Init();
-	H_Ssd_Init();
+	M_Adc_Init();
 	
-	 H_Lcd_PrintNum(x);
+	 
 	while (1)
 	{
-		x = H_KeyPad_Read();
-		if (x != 0)
-		{
-			H_Lcd_WriteChar(x);
-			H_Ssd_DisplayNum(x-48);
-		}
-		
+		x= M_Adc_Read();
+		H_Lcd_PrintNum(x);
+		_delay_ms(300);
+		H_Lcd_Clr();
 	}
 	return 0;
 }
